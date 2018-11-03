@@ -1,2 +1,2 @@
 # OOP-2018
-Lab vezbe OOP
+Lab vezbe OOP (po neki zadaci)
