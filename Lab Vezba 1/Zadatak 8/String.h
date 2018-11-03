@@ -13,7 +13,7 @@ public:
 	inline unsigned int getDuzinaStringa() {
 		return duzinaStringa;
 	}
-	int pozicijaPodstringa(const String& podstring); //pronalazi pocetnu poziciju poslednjeg podrstringa
+	int pozicijaPodstringa(const String& podstring); //pronalazi pocetnu poziciju prvog podstringa(ako ih ima vise)
 	void ucitajStringIzFajla(FILE* fajl);
 	void prikaziString();
 	void setBafer(const char* string);
