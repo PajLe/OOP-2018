@@ -1,1 +1,1 @@
-Napomena: Bez invertovanja matrice u glavnom programu
+Napomena: Nije odrađeno invertovanje matrice u glavnom programu
