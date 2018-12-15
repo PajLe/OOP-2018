@@ -1,2 +1,2 @@
 
-ne valja
+trebalo bi da radi lepo
