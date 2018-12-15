@@ -8,5 +8,7 @@ public:
 	~File();
 	char* punoIme();
 	void printList();
+	void printFileList() {}
+	inline bool isFile() { return true; }
 };
 

@@ -2,66 +2,92 @@
 #include <string.h>
 #include <iostream>
 
+
 Folder::Folder(char* ime) : FileSystemElement(ime)
 {
-	strcpy(ekstenzija, "");
+	ekstenzija = _strdup("");
 	fsElementi = new FileSystemElement*[MAX_VELICINA];
-	indexPrvogSlobodnogMesta = indexPoslednjegSlobodnogMesta = 0;
-	roditeljski = nullptr;
+	indexPrvogSlobodnogMesta = 0;
+
+	//popunimo niz nullama
+	for (unsigned short i = 0; i < MAX_VELICINA; i++) {	
+		fsElementi[i] = 0;
+	}
 }
 
 
 Folder::~Folder()
 {
-	for (unsigned short i = 0; i < indexPoslednjegSlobodnogMesta; i++) {
-		this->izbrisiIzFoldera(i);
-	}
-	if (fsElementi != nullptr) {
+	//brise "niz pointera", a sami "pointeri" se brisu u main-u
+	if (fsElementi != 0) {
 		delete[] fsElementi;
-		fsElementi = nullptr;
+		fsElementi = 0;
 	}
 }
 
 char* Folder::punoIme() {
-	char* pomocni = new char[1];
+	unsigned short duzina = 0;
+	char* roditeljskiPunoIme = 0;  //da ne bismo vise puta pozivali funkciju punoIme()
+
+	//ako postoji roditeljski
+	if (roditeljski) {
+		roditeljskiPunoIme = roditeljski->punoIme();
+		duzina += strlen(roditeljskiPunoIme);
+		duzina += 2;
+	}
+	duzina += strlen(ime) + 2 + 1; //2 za "\\", 1 za '\0'
+	char* pomocni = new char[duzina];
+
 	strcpy(pomocni, "");
-	
-	if (roditeljski != nullptr) {
-		strcat(pomocni, roditeljski->punoIme());
+	if (roditeljski) {				//trebalo bi da moze i bez ove provere (sa strcat ce se nadovezati '\0')
+		strcat(pomocni, roditeljskiPunoIme);
 		strcat(pomocni, "\\");
 	}
 	strcat(pomocni, ime); 
 	strcat(pomocni, "\\");
+	pomocni[strlen(pomocni)] = '\0';
 	return pomocni;
 }
 
-
-//ako se obrise vise od jednog elementa pre dodavanja novog, ne radi kako treba
 void Folder::dodajUfolder(FileSystemElement* fselement) { 
 	fsElementi[indexPrvogSlobodnogMesta] = fselement;
-	indexPrvogSlobodnogMesta = ++indexPoslednjegSlobodnogMesta;
+
+	//trazimo prvi clan niza koji je jednak nulli (prazan, nema elemenata)
+	//i postavljamo indexPrvogSlobodnogMesta na njega
+	while (fsElementi[++indexPrvogSlobodnogMesta]);		
+
 	fselement->postaviRoditeljskiElement(this);
 }
 
 void Folder::izbrisiIzFoldera(unsigned short index) {
-	if (fsElementi[index] != nullptr) {	//ako je niz prazan ili ne postoji taj element ne radimo nista
-										//provera ne radi ako je negde drugde(van klase) element postavljen na 0
-		fsElementi[index]->postaviRoditeljskiElement(nullptr);
+	if (fsElementi[index]) {	//ako je niz prazan ili ne postoji taj element ne radimo nista
+										//???provera ne radi ako je negde drugde(van klase) element postavljen na 0
+		fsElementi[index]->postaviRoditeljskiElement(0);
 		//delete fsElementi[index];    brise se u main
-		fsElementi[index] = nullptr;
-
+		fsElementi[index] = 0;
 		indexPrvogSlobodnogMesta = index;
-		indexPoslednjegSlobodnogMesta--;
 	}
 }
 
 void Folder::printList() {
-	std::cout << this->ime;
-	
-	for (unsigned short i = 0; i < indexPoslednjegSlobodnogMesta; i++) {
-		if (fsElementi[i] != nullptr) {
-			std::cout << "\n";
-			fsElementi[i]->printList();
+	std::cout << "Hijerarhija foldera "<< this->ime << "\n"<< std::endl;
+	for (unsigned short i = 0; i < indexPrvogSlobodnogMesta; i++) {
+		if (fsElementi[i] != 0) {
+			if (fsElementi[i]->isFile()) {
+				std::cout << fsElementi[i]->punoIme() << std::endl;
+			} else {
+				fsElementi[i]->printList();
+			}
+		}
+	}
+}
+
+void Folder::printFileList(){
+	for (unsigned short i = 0; i < indexPrvogSlobodnogMesta; i++) {
+		if (fsElementi[i] != 0) {
+			if (fsElementi[i]->isFile()) {
+				std::cout << fsElementi[i]->punoIme() << std::endl;
+			}
 		}
 	}
 }

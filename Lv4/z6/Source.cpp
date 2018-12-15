@@ -5,53 +5,48 @@
 #include <iostream>
 
 int main() {
-	char* Dime = new char[strlen("D")+1];
-	strcpy(Dime, "D");
+	char* Dime = _strdup("D");
 	Folder* D = new Folder(Dime);
 
-	char* FilmoviIme = new char[strlen("Filmovi")+1];
-	strcpy(FilmoviIme, "Filmovi");
+	char* FilmoviIme = _strdup("Filmovi");
 	Folder* Filmovi = new Folder(FilmoviIme);
 
-	char* SerijeIme = new char[strlen("Serije") + 1];
-	strcpy(SerijeIme, "Serije");
+	char* SerijeIme = _strdup("Serije");
 	Folder* Serije = new Folder(SerijeIme);
 
-	char* DesperadoIme = new char[strlen("Desperado")+1];
-	strcpy(DesperadoIme, "Desperado");
-	char* DesperadoEkstenzija = new char[strlen("mp4")+1];
-	strcpy(DesperadoEkstenzija, "mp4");
+	char* DesperadoIme = _strdup("Desperado");
+	char* DesperadoEkstenzija = _strdup("mp4");
 	File* Desperado = new File(DesperadoIme, DesperadoEkstenzija);
 
-	char* WotlkIme = new char[strlen("Wotlk") + 1];
-	strcpy(WotlkIme, "Wotlk");
+	char* WotlkIme = _strdup("Wotlk");
 	Folder* Wotlk = new Folder(WotlkIme);
 
-	char* wowIme = new char[strlen("wow") + 1];
-	strcpy(wowIme, "wow");
-	char* wowEkstenzija = new char[strlen("exe") + 1];
-	strcpy(wowEkstenzija, "exe");
+	char* wowIme = _strdup("wow");
+	char* wowEkstenzija = _strdup("exe"); 
 	File* wow = new File(wowIme, wowEkstenzija);
 
-	char* wowErrorIme = new char[strlen("wowError") + 1];
-	strcpy(wowErrorIme, "wowError");
-	char* wowErrorEkstenzija = new char[strlen("exe") + 1];
-	strcpy(wowErrorEkstenzija, "exe");
+	char* wowErrorIme = _strdup("wowError");
+	char* wowErrorEkstenzija = _strdup("exe");
 	File* wowError = new File(wowErrorIme, wowErrorEkstenzija);
+	
+	Filmovi->dodajUfolder(Desperado);			//fajl Desperado se dodaje u folder Filmovi
 
-	Filmovi->dodajUfolder(Desperado);
-
-	Wotlk->dodajUfolder(wow);
+	Wotlk->dodajUfolder(wow);					//fajlovi wow i wowError se dodaju u folder Wotlk
 	Wotlk->dodajUfolder(wowError);
 
-	D->dodajUfolder(Filmovi);
+	D->dodajUfolder(Filmovi);					//folderi Filmovi, Serije i Wotlk se dodaju u folder D
 	D->dodajUfolder(Serije);
 	D->dodajUfolder(Wotlk);
 
-	std::cout << Filmovi->punoIme() << std::endl;
-	std::cout << Wotlk->punoIme() << std::endl;
-	wowError->printList();
-	D->printList();
+	std::cout << Filmovi->punoIme() << std::endl; //puno ime foldera
+	std::cout << Desperado->punoIme() << std::endl;	//puno ime fajla
+	wowError->printList();						//printlist fajla (postoji jos jedan sa istim roditeljskim)
+	D->printList();								//printlist foldera
+	Desperado->printList();						//printlist fajla (ne postoji ni jedan sa istim roditeljskim)
+
+	Wotlk->printList();							//stanje foldera pre brisanja fajla iz njega
+	Wotlk->izbrisiIzFoldera(1);					//brisanje fajla wowError iz foldera Wotlk
+	Wotlk->printList();							//stanje foldera nakon brisanja
 
 	delete wowError;
 	delete[] wowErrorEkstenzija;

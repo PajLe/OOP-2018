@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 class FileSystemElement
 {
 protected:
@@ -10,8 +12,10 @@ public:
 	FileSystemElement(char* ime);
 	FileSystemElement(char* ime, char* ekstenzija);
 	~FileSystemElement();
-	void postaviRoditeljskiElement(FileSystemElement* element);
+	inline void postaviRoditeljskiElement(FileSystemElement* element) { roditeljski = element; }
 	virtual char* punoIme() = 0;
 	virtual void printList() = 0;
+	virtual bool isFile() = 0;
+	virtual void printFileList() = 0;
 };
 

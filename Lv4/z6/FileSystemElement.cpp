@@ -6,35 +6,32 @@ FileSystemElement::FileSystemElement()
 {
 	ime = new char;
 	ekstenzija = new char;
+	roditeljski = nullptr;
+	std::cout << "default constr";
 }
 
 FileSystemElement::FileSystemElement(char* ime) {
-	this->ime = new char[strlen(ime)+1];
-	strcpy(this->ime, ime);
-	this->ekstenzija = new char;
+	this->ime = _strdup(ime);
+	roditeljski = nullptr;
 }
 
 FileSystemElement::FileSystemElement(char* ime, char* ekstenzija) {
-	this->ime = new char[strlen(ime)+1];
-	strcpy(this->ime, ime);
-	this->ekstenzija = new char[strlen(ekstenzija)+1];
-	strcpy(this->ekstenzija, ekstenzija);
+	this->ime = _strdup(ime);
+	this->ekstenzija = _strdup(ekstenzija);
+	roditeljski = nullptr;
 }
 
 FileSystemElement::~FileSystemElement()
 {
-	if (ime != nullptr) {
+	if (ime != 0) {
 		delete[] ime;
 		ime = 0;
 	}
 
-	if (ekstenzija != nullptr) {
+	if (ekstenzija != 0) {
 		delete[] ekstenzija;
 		ekstenzija = 0;
 	}
 }
 
-void FileSystemElement::postaviRoditeljskiElement(FileSystemElement* element) {
-	roditeljski = element;
-}
 

@@ -14,14 +14,18 @@ File::~File()
 }
 
 char* File::punoIme() {
-	char* pomocni = new char[strlen(ime)+1];
-	strcpy(pomocni, ime);
+	char* roditeljskiPunoIme = roditeljski->punoIme(); //da ne bismo pozivali funkciju dva puta 
+	char* pomocni = new char[strlen(roditeljskiPunoIme) + strlen(ime) + 1 + strlen(ekstenzija) + 1]; //1 za '\0' i 1 za '.' (tacku)
+	strcpy(pomocni, "");
+	strcat(pomocni, roditeljskiPunoIme);
+	strcat(pomocni, ime);
 	strcat(pomocni, ".");
 	strcat(pomocni, ekstenzija);
+	pomocni[strlen(pomocni)] = '\0';
 	return pomocni;
 }
 
 void File::printList() {
-	//roditeljski->printList();
-	std::cout << punoIme() << std::endl;
+	roditeljski->printFileList();
+	std::cout << std::endl;
 }

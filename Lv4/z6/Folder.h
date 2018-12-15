@@ -8,7 +8,6 @@ class Folder :
 private:
 	FileSystemElement** fsElementi;
 	unsigned short indexPrvogSlobodnogMesta;
-	unsigned short indexPoslednjegSlobodnogMesta; //index nakon najdaljeg elementa u nizu
 public:
 	
 	Folder(char* ime);
@@ -17,6 +16,7 @@ public:
 	void dodajUfolder(FileSystemElement* fselement);
 	void izbrisiIzFoldera(unsigned short index);
 	void printList();
-	
+	inline bool isFile() { return false; }
+	void printFileList();
 };
 
