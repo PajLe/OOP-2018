@@ -54,12 +54,12 @@ template <class Tip>
 Tip pozitivanStepenBroja(const Tip&, unsigned int);
 
 template <class Type, int stepen>
-Type Polinom<Type, stepen>::izracunajVrednost(const Type& x) { //treba obrisati vracen objekat nakon koriscenja
-																//ili vracati Type, a pritom imati copy konstr.
+Type Polinom<Type, stepen>::izracunajVrednost(const Type& x) { //potreban copy konstr. za Type
+								
 	Type a = 0;
 	for (unsigned int i = 0; i <= stepen; i++) {	//podrazumevano da su koeficijenti smesteni od najmanjeg stepena do najveceg
-													//odnosno prvi element u nizu stoji uz a^0, drugi uz a^1, treci uz a^2 itd
-		a = a + koeficijenti[i] * pozitivanStepenBroja(x, i); //koriscena (neoptimalna verovantno, ali ne znam bolje) sablonska funkcija umesto pow zbog ogranicenja tipova
+							//odnosno prvi element u nizu stoji uz a^0, drugi uz a^1, treci uz a^2 itd
+		a = a + koeficijenti[i] * pozitivanStepenBroja(x, i); //koriscena (neoptimalna verovantno, ali ne znam bolje) sablonska funkcija umesto pow iz math.h zbog ogranicenja tipova
 	}
 	return a;
 }
