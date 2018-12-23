@@ -26,7 +26,7 @@ Complex Complex::operator+(const Complex& x) {
 }
 
 Complex Complex::operator*(const Complex& x) {
-	return Complex((real*x.real) - (imag*x.imag), (imag*x.real) + (real*x.imag));
+	return Complex((real*x.real) - (imag*x.imag), (imag*x.real) + (real*x.imag));  //formula za mnozenje dva kompleksna broja
 }
 
 Complex& Complex::operator=(const Complex& x) {
