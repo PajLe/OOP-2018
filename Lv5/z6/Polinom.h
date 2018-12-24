@@ -17,7 +17,7 @@ Type treba imati definisano:
 template <class Type, int stepen> 
 class Polinom {
 private:
-	Type* koeficijenti;
+	Type* koeficijenti; //koristiti nedinamicke nizove da ne bismo pokusali da resizujemo 
 	//int brojKoeficijenata;
 public:
 
